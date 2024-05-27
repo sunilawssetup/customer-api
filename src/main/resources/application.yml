@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: CUSTOMER-API
+
+  datasource:
+    url: jdbc:h2:mem:customer
+    password: customer
+    username: customer
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+  h2:
+    console.enabled: true
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+server:
+  port: 9091
