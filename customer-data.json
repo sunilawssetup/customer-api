@@ -1,0 +1,24 @@
+{
+  "mobile": "86000071577",
+  "fname": "sunil",
+  "lname": "Mane",
+  "gender": "male",
+  "addressDtos": [
+    {
+      "add": "1440 joshivada hanuman nagar malegaon bk",
+      "street": "nira- baramati road",
+      "city": "pune",
+      "pin": "413115",
+      "state": "Maharastra",
+      "active": true
+    },
+    {
+      "add": "Flat no 402 My home apartment punawale",
+      "street": "Pandhre Wasti road",
+      "city": "pune",
+      "pin": "411033",
+      "state": "Maharastra",
+      "active": false
+    }
+  ]
+}

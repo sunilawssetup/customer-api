@@ -2,6 +2,7 @@ package com.app.customer.controller;
 
 import com.app.customer.dto.CustomerDto;
 import com.app.customer.dto.ErrorResponseDto;
+import com.app.customer.dto.HotelDto;
 import com.app.customer.dto.LoginDto;
 import com.app.customer.service.ICustomer;
 import com.app.customer.util.AppConstant;
@@ -17,6 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(
         name = "CUSTOMER-API",
@@ -107,9 +110,8 @@ public class CustomerController {
     }
 
     @PostMapping("login/")
-    public void login(LoginDto loginDto){
-        serviceCustomer.loginUser(loginDto);
-
+    public List<HotelDto> login(LoginDto loginDto){
+       return serviceCustomer.loginUser(loginDto);
     }
 
 

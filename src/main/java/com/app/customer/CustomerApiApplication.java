@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 @EnableJpaAuditing(auditorAwareRef = "auditAwareImpl")
-@EnableFeignClients
+@EnableFeignClients(basePackages = "com.app.customer.service.client")
 @OpenAPIDefinition(
         info = @Info(
                 title = "CUSTOMER-API",
