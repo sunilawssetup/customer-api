@@ -1,11 +1,9 @@
 package com.app.customer.controller;
 
-import com.app.customer.dto.CustomerDto;
-import com.app.customer.dto.ErrorResponseDto;
-import com.app.customer.dto.HotelDto;
-import com.app.customer.dto.LoginDto;
+import com.app.customer.dto.*;
 import com.app.customer.service.ICustomer;
 import com.app.customer.util.AppConstant;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -110,8 +108,26 @@ public class CustomerController {
     }
 
     @PostMapping("login/")
+    @CircuitBreaker(name="listHotel",fallbackMethod = "loginFallback")
     public List<HotelDto> login(LoginDto loginDto){
        return serviceCustomer.loginUser(loginDto);
+    }
+
+    public List<HotelDto> loginFallback(LoginDto loginDto,Exception exception){
+
+        return List.of(HotelDto.builder().
+                hotelId(11L)
+                        .hotelName("Dumy Hotel Name")
+                        .description("is a dummy description")
+                        .items(List.of(MenuDto.builder()
+                                        .type(false)
+                                        .price(200d)
+                                        .menueId(12L)
+                                        .description("i is dummy menu")
+                                        .name("dummy menu name")
+                                .build()))
+                        .build()
+                );
     }
 
 
