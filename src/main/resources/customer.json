@@ -1,0 +1,18 @@
+{
+  "customerId": 1,
+  "mobile": "8600071577",
+  "gender": "M",
+  "addressDtos": [
+    {
+      "addressId": 1,
+      "add": "malegaon bk",
+      "street": "near english medium school",
+      "city": "pune",
+      "pin": "413115",
+      "state": "Maharastra",
+      "active": true
+    }
+  ],
+  "lname": "mane",
+  "fname": "sunil"
+}

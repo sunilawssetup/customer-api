@@ -167,7 +167,7 @@ public class CustomerController {
         );
     }
 
-    public OrderIteamDto bookOrdercallback(OrderIteamDto orderIteamDto,Exception exception){
+    public OrderIteamDto bookOrderFallback(OrderIteamDto orderIteamDto,Exception exception){
         return OrderIteamDto.builder()
                 .customerId(1111L)
                 .qty(0l)
