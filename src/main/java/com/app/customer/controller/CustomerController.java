@@ -94,8 +94,7 @@ public class CustomerController {
             @ApiResponse(
                     responseCode = "500",
                     description = "HTTP status internal server error",
-                    content = @Content(
-
+                    content = @Content( schema = @Schema(implementation = ErrorResponseDto.class)
                     )
 
             )
@@ -107,27 +106,76 @@ public class CustomerController {
         return serviceCustomer.updateCustomer(customerDto);
     }
 
+    @Operation(
+            summary = "Login application",
+            description = "Here we are login and see the menue"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http status success"
+    )
     @PostMapping("login/")
     @CircuitBreaker(name="listHotel",fallbackMethod = "loginFallback")
     public List<HotelDto> login(LoginDto loginDto){
        return serviceCustomer.loginUser(loginDto);
     }
 
+
+
+    @Operation(
+            summary = "Order food",
+            description = "making orders food"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "Http status created"
+    )
+    @PostMapping("/book-order")
+    @CircuitBreaker(name = "book_order",fallbackMethod = "bookOrderFallback")
+    public OrderIteamDto bookOrder(OrderIteamDto orderIteamDto){
+       return serviceCustomer.bookOrder(orderIteamDto);
+    }
+
+    @Operation(
+            summary = "make Payment",
+            description = "based on order id we have to make payment"
+
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "here we have to make payment"
+    )
+    @PostMapping("/make-payment")
+    public PaymentDto payment(PaymentDto paymentDto){
+       return serviceCustomer.payment(paymentDto);
+    }
+
     public List<HotelDto> loginFallback(LoginDto loginDto,Exception exception){
 
         return List.of(HotelDto.builder().
                 hotelId(11L)
-                        .hotelName("Dumy Hotel Name")
-                        .description("is a dummy description")
-                        .items(List.of(MenuDto.builder()
-                                        .type(false)
-                                        .price(200d)
-                                        .menueId(12L)
-                                        .description("i is dummy menu")
-                                        .name("dummy menu name")
-                                .build()))
-                        .build()
-                );
+                .hotelName("Dumy Hotel Name")
+                .description("is a dummy description")
+                .items(List.of(MenuDto.builder()
+                        .type(false)
+                        .price(200d)
+                        .menueId(12L)
+                        .description("i is dummy menu")
+                        .name("dummy menu name")
+                        .build()))
+                .build()
+        );
+    }
+
+    public OrderIteamDto bookOrdercallback(OrderIteamDto orderIteamDto,Exception exception){
+        return OrderIteamDto.builder()
+                .customerId(1111L)
+                .qty(0l)
+                .menuId(1l)
+                .hotelId(1l)
+                .paymentStatus(null)
+                .orderStatus("Dummy Order")
+                .build();
     }
 
 
