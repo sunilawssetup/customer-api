@@ -35,7 +35,7 @@ public class CustomerExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(CustomerNotFound.class)
-    public ResponseEntity<ErrorResponseDto> handleCustomerNotFound(RuntimeException runtimeException, WebRequest webRequest) {
+    public ResponseEntity<ErrorResponseDto> handleCustomerNotFound(CustomerNotFound runtimeException, WebRequest webRequest) {
 
         return new ResponseEntity<>(ErrorResponseDto.builder()
                 .errorPath(webRequest.getDescription(false))
@@ -46,7 +46,7 @@ public class CustomerExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(CustomerAlreadyExistException.class)
-    public ResponseEntity<ErrorResponseDto> handleCustomerAlreadyExistException(RuntimeException runtimeException, WebRequest webRequest) {
+    public ResponseEntity<ErrorResponseDto> handleCustomerAlreadyExistException(CustomerAlreadyExistException runtimeException, WebRequest webRequest) {
         return new ResponseEntity<>(ErrorResponseDto.builder()
                 .errorPath(webRequest.getDescription(false))
                 .errorDescription(runtimeException.getMessage())

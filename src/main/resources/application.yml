@@ -22,7 +22,7 @@ spring:
     import: "optional:configserver:http://localhost:9097/"
 server:
   port: 9091
-
+#Circuit breaker properties
 management:
   health:
     circuitbreakers:
@@ -62,6 +62,28 @@ resilience4j:
           permitted-number-of-calls-in-half-open-state: 3
           sliding-window-size: 10
           sliding-window-type: COUNT_BASED
+      make_payment:
+          registerHealthIndicator: true
+          eventConsumerBufferSize: 10
+          failureRateThreshold: 50
+          minimumNumberOfCalls: 5
+          automaticTransitionFromOpenToHalfOpenEnabled: true
+          waitDurationInOpenState: 6s
+          permittedNumberOfCallsInHalfOpenState: 3
+          slidingWindowSize: 10
+          slidingWindowType: COUNT_BASED
 
+openapi:
+  service:
+    title: test-service doc
+    version: 1.0.0
+    url: http://localhost:9096
+
+
+springdoc:
+  api-docs:
+    path: /test-service/v3/api-docs
+  swagger-ui:
+    path: /test-service/swagger-ui.html
 
 

@@ -116,7 +116,7 @@ public class CustomerController {
     )
     @PostMapping("login/")
     @CircuitBreaker(name="listHotel",fallbackMethod = "loginFallback")
-    public List<HotelDto> login(LoginDto loginDto){
+    public List<HotelDto> login(@RequestBody LoginDto loginDto){
        return serviceCustomer.loginUser(loginDto);
     }
 
@@ -132,7 +132,7 @@ public class CustomerController {
     )
     @PostMapping("/book-order")
     @CircuitBreaker(name = "book_order",fallbackMethod = "bookOrderFallback")
-    public OrderIteamDto bookOrder(OrderIteamDto orderIteamDto){
+    public OrderIteamDto bookOrder(@RequestBody OrderIteamDto orderIteamDto){
        return serviceCustomer.bookOrder(orderIteamDto);
     }
 
@@ -146,7 +146,8 @@ public class CustomerController {
             description = "here we have to make payment"
     )
     @PostMapping("/make-payment")
-    public PaymentDto payment(PaymentDto paymentDto){
+    @CircuitBreaker(name = "make_payment",fallbackMethod = "makePaymentFallback")
+    public PaymentDto payment(@RequestBody PaymentDto paymentDto){
        return serviceCustomer.payment(paymentDto);
     }
 
@@ -175,6 +176,15 @@ public class CustomerController {
                 .hotelId(1l)
                 .paymentStatus(null)
                 .orderStatus("Dummy Order")
+                .build();
+    }
+
+    public PaymentDto makePaymentFallback(){
+
+        return PaymentDto.builder()
+                .paymentId(0l)
+                .orderId(0l)
+                .status("Dumy status")
                 .build();
     }
 
