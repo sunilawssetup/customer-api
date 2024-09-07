@@ -1,6 +1,5 @@
 spring:
-  application:
-    name: CUSTOMER-API
+
 
   datasource:
     url: jdbc:h2:mem:customer
@@ -13,10 +12,79 @@ spring:
     show-sql: true
   h2:
     console.enabled: true
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka
 
+  cloud:
+    config:
+      uri: http://localhost:9097
+      import-check:
+        enabled: true
+  config:
+    import: "optional:configserver:http://localhost:9097/"
 server:
   port: 9091
+#Circuit breaker properties
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+    instances:
+      listHotel:
+          register-health-indicator: true
+          event-consumer-buffer-size: 10
+          failure-rate-threshold: 50
+          minimum-number-of-calls: 5
+          automatic-transition-from-open-to-half-open-enabled: true
+          wait-duration-in-open-state: 6s
+          permitted-number-of-calls-in-half-open-state: 3
+          sliding-window-size: 10
+          sliding-window-type: COUNT_BASED
+      book_order:
+          register-health-indicator: true
+          event-consumer-buffer-size: 10
+          failure-rate-threshold: 50
+          minimum-number-of-calls: 5
+          automatic-transition-from-open-to-half-open-enabled: true
+          wait-duration-in-open-state: 6s
+          permitted-number-of-calls-in-half-open-state: 3
+          sliding-window-size: 10
+          sliding-window-type: COUNT_BASED
+      make_payment:
+          registerHealthIndicator: true
+          eventConsumerBufferSize: 10
+          failureRateThreshold: 50
+          minimumNumberOfCalls: 5
+          automaticTransitionFromOpenToHalfOpenEnabled: true
+          waitDurationInOpenState: 6s
+          permittedNumberOfCallsInHalfOpenState: 3
+          slidingWindowSize: 10
+          slidingWindowType: COUNT_BASED
+
+openapi:
+  service:
+    title: test-service doc
+    version: 1.0.0
+    url: http://localhost:9096
+
+
+springdoc:
+  api-docs:
+    path: /test-service/v3/api-docs
+  swagger-ui:
+    path: /test-service/swagger-ui.html
+
+
+

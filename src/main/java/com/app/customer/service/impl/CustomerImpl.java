@@ -1,9 +1,7 @@
 package com.app.customer.service.impl;
 
 import com.app.customer.controller.CustomerController;
-import com.app.customer.dto.CustomerDto;
-import com.app.customer.dto.HotelDto;
-import com.app.customer.dto.LoginDto;
+import com.app.customer.dto.*;
 import com.app.customer.exception.CustomerAlreadyExistException;
 import com.app.customer.exception.CustomerNotFound;
 import com.app.customer.model.Address;
@@ -12,6 +10,8 @@ import com.app.customer.repo.AddressRepo;
 import com.app.customer.repo.CustomerRepo;
 import com.app.customer.service.ICustomer;
 import com.app.customer.service.client.HotelFeing;
+import com.app.customer.service.client.OrderFeign;
+import com.app.customer.service.client.PaymentFeign;
 import com.app.customer.util.AddressMapper;
 import com.app.customer.util.CustomerMapper;
 import org.slf4j.Logger;
@@ -36,6 +36,12 @@ public class CustomerImpl implements ICustomer {
 
     @Autowired
     private HotelFeing hotelFeing;
+
+    @Autowired
+    private OrderFeign orderFeign;
+
+    @Autowired
+    private PaymentFeign paymentFeign;
 
     @Override
     public CustomerDto saveCustomer(CustomerDto customerDto) {
@@ -108,6 +114,16 @@ public class CustomerImpl implements ICustomer {
             listHotel = hotelFeing.viewHotel();
         }
         return listHotel;
+    }
+
+    @Override
+    public OrderIteamDto bookOrder(OrderIteamDto orderIteamDto) {
+        return orderFeign.bookOrder(orderIteamDto);
+    }
+
+    @Override
+    public PaymentDto payment(PaymentDto paymentDto) {
+        return paymentFeign.savePayment(paymentDto);
     }
 
 
